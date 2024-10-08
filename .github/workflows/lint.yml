@@ -10,6 +10,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Move to user management front folder
+        run: cd user-management-front/
+
       - name: Checkout code
         uses: actions/checkout@v2
 
@@ -17,9 +20,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "16"
-
-      - name: Move to user management front folder
-        run: cd user-management-front/
 
       - name: Install dependencies
         run: npm install
