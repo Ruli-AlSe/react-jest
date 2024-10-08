@@ -1,0 +1,24 @@
+name: Tests debug
+
+on:
+  workflow_call:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+      - name: Move to user management front folder, install dependencies and run all tests
+        working-directory: ./user-management-front
+        run: |
+          ls ${{ github.workspace }}
+          npm install
+          npm run test
