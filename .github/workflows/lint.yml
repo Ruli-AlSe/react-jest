@@ -19,7 +19,7 @@ jobs:
           node-version: "16"
 
       - name: Move to user management front folder
-        run: cd user-management-front
+        run: cd user-management-front/
 
       - name: Install dependencies
         run: npm install
