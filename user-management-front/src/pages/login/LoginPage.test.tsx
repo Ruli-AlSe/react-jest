@@ -5,5 +5,5 @@ test("It should render the login title", () => {
   // First we need to make the render of the page
   render(<LoginPage />)
 
-  expect(screen.getByRole("heading", {name: /login/i})).toBeInTheDocument()
+  expect(screen.getByRole("heading", {name: /fcsfva/i})).toBeInTheDocument()
 })
