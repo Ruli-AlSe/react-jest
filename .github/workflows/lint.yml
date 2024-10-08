@@ -17,14 +17,10 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "18"
-      - name: Move to user management front folder
-        run: |
-          cd user-management-front/
-      - name: List files in the repository
+          node-version: "20"
+      - name: Move to user management front folder, install dependencies and run linter
+        working-directory: ./user-management-front
         run: |
           ls ${{ github.workspace }}
-      - name: Install dependencies
-        run: npm install
-      - name: Run lint
-        run: npm run lint
+          npm install
+          npm run lint
