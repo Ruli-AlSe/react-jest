@@ -1,9 +1,7 @@
-name: Lint
+name: Linter debug
 
 on:
-  pull_request:
-    branches:
-      - main
+  workflow_call:
 
 jobs:
   lint:
