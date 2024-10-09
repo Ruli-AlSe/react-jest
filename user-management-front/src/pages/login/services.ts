@@ -1,5 +1,3 @@
-import { stat } from "fs"
-
 export const loginService = async (email: string, password: string) => {
   try {
     const response = await fetch("/login", {
@@ -13,11 +11,11 @@ export const loginService = async (email: string, password: string) => {
         ok: true,
         status: 200,
       }
-    } else {
-      return {
-        ok: false,
-        status: 401,
-      }
+    }
+
+    return {
+      ok: false,
+      status: 401,
     }
   } catch (error) {
     return {
