@@ -31,11 +31,12 @@ export default function LoginPage() {
     const response = await loginService(email, password)
     if (!response.ok) {
       setIsError(true)
+
       if (response.status === 401) {
         setErrorMessage("The email or password are not correct")
+      } else {
+        setErrorMessage("Unexpected error, please try again")
       }
-
-      setErrorMessage("Unexpected error, please try again")
     }
     setIsLoading(false)
   }

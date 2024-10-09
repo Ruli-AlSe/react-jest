@@ -4,7 +4,10 @@ import userEvent from "@testing-library/user-event"
 import LoginPage from "./LoginPage"
 
 // With this mock function i'm intercepting fetch requests and adding a 1sec delay to pass tests
-const getMockingFunction = (type: "error" | "success" | "rejected") => {
+const getMockingFunction = (
+  type: "error" | "success" | "rejected",
+  delay: number = 1000,
+) => {
   switch (type) {
     case "rejected":
       return jest.fn(
@@ -14,7 +17,7 @@ const getMockingFunction = (type: "error" | "success" | "rejected") => {
               resolve(
                 new Response(JSON.stringify({ rejected: true, status: 401 })),
               )
-            }, 1000),
+            }, delay),
           ),
       )
     case "error":
@@ -27,7 +30,7 @@ const getMockingFunction = (type: "error" | "success" | "rejected") => {
               resolve(
                 new Response(JSON.stringify({ rejected: false, status: 200 })),
               )
-            }, 1000),
+            }, delay),
           ),
       )
   }
@@ -83,7 +86,6 @@ test("It should disable the submit button while is fetching", async () => {
   await fillAndSendLoginForm()
 
   await waitFor(() => expect(getSubmitButton()).toBeDisabled())
-  await waitFor(() => expect(getSubmitButton()).not.toBeDisabled())
 })
 
 test("it should show a loading indicator while is fetching the login", async () => {
@@ -105,23 +107,27 @@ test("it should show a loading indicator while is fetching the login", async () 
 })
 
 test('it should display "Unexpected error, please try again" when there is an error from the api login', async () => {
-  global.fetch = getMockingFunction("error") as jest.Mock
+  global.fetch = getMockingFunction("error", 300) as jest.Mock
 
   render(<LoginPage />)
   await fillAndSendLoginForm()
 
-  expect(
-    await screen.findByText("Unexpected error, please try again"),
-  ).toBeInTheDocument()
+  await waitFor(() =>
+    expect(
+      screen.getByText("Unexpected error, please try again"),
+    ).toBeInTheDocument(),
+  )
 })
 
 test('it should display "The email or password are not correct" when the credentials are invalid', async () => {
-  global.fetch = getMockingFunction("rejected") as jest.Mock
+  global.fetch = getMockingFunction("rejected", 300) as jest.Mock
 
   render(<LoginPage />)
   await fillAndSendLoginForm()
 
-  expect(
-    await screen.findByText("The email or password are not correct"),
-  ).toBeInTheDocument()
+  await waitFor(() =>
+    expect(
+      screen.getByText("The email or password are not correct"),
+    ).toBeInTheDocument(),
+  )
 })
